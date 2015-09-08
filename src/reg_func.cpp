@@ -19,6 +19,8 @@
 
 using namespace std;
 
+int Interval = 12;
+
 double CumIRate(vector <double> A, vector <double> B, double T, double dt){
 	int Si = (int) A.size();
 	int Brack = (int)(Si*(1 - T));
@@ -36,7 +38,7 @@ vector <double> Reg(vector< vector< vector <double> > > X, double DMONTH, int T,
 	//Initilise counting variables
 	size_t i=0, j=0;
 
-	double Dtime = (12-DMONTH)/12;
+	double Dtime = (Interval-DMONTH)/Interval;
 
 	//Evaluate CF at time t 
 	double tau = 0., n=0, tmp=0;
@@ -53,10 +55,10 @@ vector <double> Reg(vector< vector< vector <double> > > X, double DMONTH, int T,
 			// n = barrier_call(X[1][i],2,0,1,STRIKE,CumIRate(X[3][i],X[4][i], Dtime, dt),1);
 				// +barrier_call(X[1][i],1.1,1,1,STRIKE,CumIRate(X[3][i],X[4][i], Dtime, dt),1);
 		//Call
-			// n = opt_call(X[1][i][T/dt - 1],STRIKE,CumIRate(X[3][i],X[4][i], Dtime, dt),Dtime);
-		//Call
 			n = opt_call(X[1][i][T/dt - 1],STRIKE,CumIRate(X[3][i],X[4][i], Dtime, dt),Dtime);
-				// -opt_put(X[1][i][T/dt - 1],STRIKE-0.1,CumIRate(X[3][i],X[4][i], Dtime, dt),Dtime);
+		//Call
+			// n = opt_call(X[1][i][T/dt - 1],STRIKE+0.1,CumIRate(X[3][i],X[4][i], Dtime, dt),Dtime)
+			// 	-opt_put(X[1][i][T/dt - 1],STRIKE-0.1,CumIRate(X[3][i],X[4][i], Dtime, dt),Dtime);
 		//Dig Put
 			// n= opt_dig_call(X[1][i][T/dt - 1],STRIKE,CumIRate(X[3][i], X[4][i], Dtime, dt), Dtime);
 		//Construct Barrier with Ret clause
@@ -84,7 +86,7 @@ vector <double> Reg(vector< vector< vector <double> > > X, double DMONTH, int T,
 		j=0;
 		tmp_phi.clear();
 		while(j<X[0].size()){
-			tmp_vec.push_back(X[i][j][(int)(((T/dt)/12)*DMONTH)-1]);
+			tmp_vec.push_back(X[i][j][(int)(((T/dt)/Interval)*DMONTH)-1]);
 		 	j++;
 		}
 		tmp_mat.push_back(tmp_vec);
@@ -138,12 +140,12 @@ vector < vector < vector < double > > >  BetaGen(int Path, int Buck, vector <dou
 	vector < vector < vector < double > > > RetVec;
 	vector < vector < double > > BUCKETVEC;
 
-	for(double DMONTH = 1; DMONTH<=12 ; DMONTH++){
+	for(double DMONTH = 1; DMONTH<=Interval ; DMONTH++){
 
 		//Extract values for asset price from training paths at time t. 
 		//Add to vector v
 		for(size_t i=0; i<XPand[0].size(); i++){
-			v.push_back(XPand[1][i][(int)((XPand[0][0].size()/12)*DMONTH)]);
+			v.push_back(XPand[1][i][(int)((XPand[0][0].size()/Interval)*DMONTH)]);
 		}
 
 		//Setting auto buckets equal number in each
