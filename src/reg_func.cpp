@@ -27,7 +27,7 @@ double CumIRate(vector <double> A, vector <double> B, double T, double dt){
 	vector<double> Rate(A.begin(), A.begin()+Brack);
 	double Ret=0;
 	for(size_t i = 0 ; i < Rate.size() ; i++){
-		Rate[i]=A[i]/*-B[i]*/;
+		Rate[i]=B[i]/*-B[i]*/;
 		Ret+=Rate[i]*dt;
 	}
 	return Ret;
@@ -55,12 +55,12 @@ vector <double> Reg(vector< vector< vector <double> > > X, double DMONTH, int T,
 			// n = barrier_call(X[1][i],2,0,1,STRIKE,CumIRate(X[3][i],X[4][i], Dtime, dt),1);
 				// +barrier_call(X[1][i],1.1,1,1,STRIKE,CumIRate(X[3][i],X[4][i], Dtime, dt),1);
 		//Call
-			n = opt_call(X[1][i][T/dt - 1],STRIKE,CumIRate(X[3][i],X[4][i], Dtime, dt),Dtime);
+			// n = opt_call(X[1][i][T/dt - 1],STRIKE,CumIRate(X[3][i],X[4][i], Dtime, dt),Dtime);
 		//Call
 			// n = opt_call(X[1][i][T/dt - 1],STRIKE+0.1,CumIRate(X[3][i],X[4][i], Dtime, dt),Dtime)
 			// 	-opt_put(X[1][i][T/dt - 1],STRIKE-0.1,CumIRate(X[3][i],X[4][i], Dtime, dt),Dtime);
 		//Dig Put
-			// n= opt_dig_call(X[1][i][T/dt - 1],STRIKE,CumIRate(X[3][i], X[4][i], Dtime, dt), Dtime);
+			n= opt_dig_call(X[1][i][T/dt - 1],STRIKE,CumIRate(X[3][i], X[4][i], Dtime, dt), Dtime);
 		//Construct Barrier with Ret clause
 			// n = opt_call(X[1][i][T/dt - 1],STRIKE,CumIRate(X[3][i],X[4][i], Dtime, dt),1)
 			// 	- opt_call(X[1][i][T/dt - 1],STRIKE+0.1,CumIRate(X[3][i],X[4][i], Dtime, dt),1)

@@ -89,7 +89,7 @@ vector <vector <double> > CorMat(vector <vector <double> > Data){
 
 vector< vector< vector <double> > > PathGen(double seed, int PATH, double T, double dt, double tmp1){
 	
-	double multi = sqrt(10);
+	double multi = sqrt(1);
 
 	//Stochastic Interest rate 1 parameters	
 	double k = 180;		//Mean reversion parameter
