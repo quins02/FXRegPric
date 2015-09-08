@@ -92,11 +92,11 @@ double PRDC(vector <double> FX, vector<double> r1, vector <double> r2, double N,
 }
 
 
-double swap(vector <double> R, double Fix, double r){
-	double tmp = 0;
+double swap(vector <double> R, double Fix, double r, double N){
+	double tmp = N*exp(-r);
 	double dt = (R.size()-1)/12;
 	for(size_t i = 0 ; i < R.size() ; i+=dt){
-		tmp += (R[i] - Fix)*exp(-r);
+		tmp += N*(R[i] - Fix)*exp(-r);
 	}
 	return tmp;
 }

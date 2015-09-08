@@ -10,7 +10,7 @@ double opt_dig_put(double S, double K, double r, double t);
 double barrier_call(std::vector <double> Path, double barrier, bool IO, bool UD, double K, double r, double t);
 double barrier_put(std::vector <double> Path, double barrier, bool IO, bool UD, double K, double r, double t);
 double PRDC(std::vector <double> FX, std::vector <double> r1, std::vector <double> r2, double N, double t, double r);
-double swap(std::vector <double> R, double Fix, double r);
+double swap(std::vector <double> R, double Fix, double r, double N);
 double NORMFUNC(double x, void * params);
 double NORMDIST(double x);
 double call_CF(double S, double K, double R, double t, double vol);

@@ -68,7 +68,7 @@ vector <double> Reg(vector< vector< vector <double> > > X, double DMONTH, int T,
 		//PRDC
 			// n = PRDC(X[0][i],X[3][i],X[4][i],100,Dtime,CumIRate(X[3][i],X[4][i],Dtime,dt));
 		//SWAP
-			n = swap(X[3][i], 0.03, CumIRate(X[3][i],X[4][i],Dtime,dt));
+			n = swap(X[3][i], 0.03, CumIRate(X[3][i],X[4][i],Dtime,dt),100);
 			Phi.push_back(n);
 			tau+=dt;
 		j=0;
