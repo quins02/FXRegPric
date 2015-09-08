@@ -89,15 +89,17 @@ vector <vector <double> > CorMat(vector <vector <double> > Data){
 
 vector< vector< vector <double> > > PathGen(double seed, int PATH, double T, double dt, double tmp1){
 	
+	double multi = sqrt(10);
+
 	//Stochastic Interest rate 1 parameters	
-	double k = 170;		//Mean reversion parameter
-	double V = 0.0;	//Average interest rate
-	double o = 0.05;	//Interest rate volatility
+	double k = 180;		//Mean reversion parameter
+	double V = 0.03;	//Average interest rate
+	double o = multi*0.03;	//Interest rate volatility
 
 	//Stochastic Interest rate 2 parameters
 	double Sk = 170;	//Mean reversion parameter
-	double SV = 0.0;	//Average interest rate
-	double So = 0.05;	//Interest rate volatility
+	double SV = 0.01;	//Average interest rate
+	double So = multi*0.05;	//Interest rate volatility
 
 	const gsl_rng_type * Q = gsl_rng_default;
 	gsl_rng * r = gsl_rng_alloc(Q);
@@ -105,11 +107,11 @@ vector< vector< vector <double> > > PathGen(double seed, int PATH, double T, dou
 
 	const gsl_rng_type * q = gsl_rng_default;
 	gsl_rng * W = gsl_rng_alloc(q);
-	gsl_rng_set(W, seed*seed);
+	gsl_rng_set(W, seed*seed+19817678);
 
 	const gsl_rng_type * O = gsl_rng_default;
 	gsl_rng * S = gsl_rng_alloc(O);
-	gsl_rng_set(S, seed*seed*seed);
+	gsl_rng_set(S, seed+12125156);
 
 	gsl_rng_env_setup();
 
@@ -124,11 +126,15 @@ vector< vector< vector <double> > > PathGen(double seed, int PATH, double T, dou
 	
 	double R1, R2, tmp;
 
-	double Vol = 0.01;
+	double Vol = multi*0.01;
+
+	string FXR = "tmp/RatesFX.dat";
+	ofstream RATEFX;
+	RATEFX.open(FXR.c_str());
 
 	for(int COUNT = 0 ; COUNT < PATH ; COUNT++){
-		R1 = 0.015;	//Initial Interest Rate T=0
-		R2 = 0.02;	//Initial Volatility T=0
+		R1 = 0.03;	//Initial Interest Rate T=0
+		R2 = 0.01;	//Initial Volatility T=0
 
 		//m=1;	
 		
@@ -161,6 +167,7 @@ vector< vector< vector <double> > > PathGen(double seed, int PATH, double T, dou
 		R1_vec.clear();
 		A.clear();
 		R2_vec.clear();
+		// RATEFX<<R1<<"\t"<<R2<<"\t"<<tmp<<endl;
 	}
 
 	MultOutPLUSR.push_back(MultOutA);

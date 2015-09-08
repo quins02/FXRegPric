@@ -22,7 +22,7 @@
 using namespace std;
 
 //DECLARE FUNCTIONS
-double EvRiskProf(double Poly, double dt);
+double EvRiskProf(double Poly, double dt, bool OUT);
 double parab(vector<double> Coef, double X);
 double hyp(vector<double> Coef, double X);
 double CoefApp(vector<double> Coef, double S, double R1, double R2, double Poly);
@@ -120,7 +120,7 @@ int main(){
 
 	//EvRiskProf:: evaluates risk profile by applying beta coefficents to valuations paths
 	//			   outputs to file
-	double EPE = EvRiskProf(Poly, dt);
+	double EPE = EvRiskProf(Poly, dt,1);
 
 	//Record duration
 	duration=(clock()-start)/(double) CLOCKS_PER_SEC;
@@ -136,7 +136,7 @@ int main(){
 	return 0;
 }
 
-double EvRiskProf(double Poly, double dt){
+double EvRiskProf(double Poly, double dt, bool OUT){
 	//Declare Variables necessary for valutaion
 	size_t Path_Length = V[0].size();
 	size_t Num_Path = V.size();
@@ -148,18 +148,18 @@ double EvRiskProf(double Poly, double dt){
 	double tmp, tmpR1, tmpR2;
 
 	//Out Valuation paths (Optional)
-	// if(OUT == 1){
-	// 	string CVANA = "tmp/VPath.dat";
-	// 	ofstream CVAA;
-	// 	CVAA.open(CVANA.c_str());
+	if(OUT == 1){
+		string CVANA = "tmp/VPath.dat";
+		ofstream CVAA;
+		CVAA.open(CVANA.c_str());
 
-	// 	for(size_t i = 0 ; i < V[0].size() ; i++){
-	// 		for(size_t j = 0 ; j < V.size() ; j++){
-	// 			CVAA<<V[j][i]<<"\t";
-	// 		}
-	// 		CVAA<<endl;
-	// 	}
-	// }
+		for(size_t i = 0 ; i < V[0].size() ; i++){
+			for(size_t j = 0 ; j < V.size() ; j++){
+				CVAA<<V[j][i]<<"\t";
+			}
+			CVAA<<endl;
+		}
+	}
 
 
 	vector < double > Val_Path;
@@ -172,7 +172,11 @@ double EvRiskProf(double Poly, double dt){
 		string BUCK = "tmp/BucketFit" + static_cast<ostringstream*>( &(ostringstream() << Tv+1) )->str() + string(".dat");
 		ofstream BF;
 		BF.open(BUCK.c_str());
+		string RateV = "tmp/RateV" + static_cast<ostringstream*>( &(ostringstream() << Tv+1) )->str() + string(".dat");
+		ofstream Rate;
+		Rate.open(RateV.c_str());
 
+		double Result;
 	
 		for( size_t j = 0 ; j < Num_Path ; j++ ){
 			tmp = V[j][i];
@@ -182,7 +186,9 @@ double EvRiskProf(double Poly, double dt){
 				vector < double > tmpBeta((XMain[Tv][k].begin() + 2), XMain[Tv][k].end());
 				if( XMain[Tv][k][0] < tmp && tmp < XMain[Tv][k][1] ){
 					Val_Path.push_back(CoefApp(tmpBeta,tmp,tmpR1,tmpR2, Poly));
-					BF<<setprecision(4)<<Tv+1<<"\t"<<tmp<<"\t"<<CoefApp(tmpBeta,tmp,tmpR1,tmpR2,Poly)<<endl;
+					Result = CoefApp(tmpBeta,tmp,tmpR1,tmpR2,Poly);
+					BF<<setprecision(4)<<Tv+1<<"\t"<<tmp<<"\t"<<Result<<endl;
+					Rate<<tmpR1<<"\t"<<tmpR2<<"\t"<<Result<<endl;
 					k = Num_Buckets;
 					tmpBeta.clear();
 				}
@@ -217,6 +223,7 @@ double EvRiskProf(double Poly, double dt){
 		EPEmean.push_back(mean(Val_T[i]));
 		PMean<<i+1<<"\t"<<mean(X_percent(Val_T[i],0.95))<<endl;
 	}
+
 
 	return mean(EPEmean);
 

@@ -21,6 +21,7 @@
 #include <FL/Fl.H>
 #include <FL/Fl_Window.H>
 #include <FL/Fl_Input.H>
+#include <FL/Fl_Float_Input.H>
 
 using namespace std;
 
@@ -72,8 +73,8 @@ int main(int argc, char **argv){
 	}
 
 	Fl_Window *window = new Fl_Window(680,360);
-	Fl_Input *input = new Fl_Input(50, 10, 100, 30, "Strike");
-	input->value("1,2");
+	Fl_Float_Input *strike = new Fl_Float_Input(50, 10, 100, 30, "Strike");
+//	strike->value(Hist[0]);
 
 	window->end();
   	window->show(argc, argv);
