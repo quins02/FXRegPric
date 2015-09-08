@@ -5,9 +5,10 @@ echo "Compiling Regression Pricing Model In Place..."
 mkdir tmp >/dev/null 2>&1
 mkdir bin >/dev/null 2>&1
 CF="$(gsl-config --cflags --libs)"
-g++ -Wall src/RiskProfile.cpp src/mat_opp.cpp src/opt_eval.cpp src/rng_func.cpp src/download.cpp src/reg_func.cpp -O3 -o RiskProfile.exe -std=c++11 -lcurl ${CF}
+FL="$(fltk-config --cxxflags --libs)"
+g++ -Wall src/GUI.cpp src/mat_opp.cpp src/opt_eval.cpp src/rng_func.cpp src/download.cpp src/reg_func.cpp -O3 -o GUIRP.exe -std=c++11 -lcurl ${CF} ${FL}
 echo "Required DLLs for portability:"
-for i in $(cygcheck ./RiskProfile.exe 2>/dev/null ); 
+for i in $(cygcheck ./GUIRP.exe 2>/dev/null ); 
 	do 
 		if [[ ! "$i"  =~ "cygcheck" ]] 
 			then
