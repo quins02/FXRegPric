@@ -120,7 +120,7 @@ int main(){
 
 	//EvRiskProf:: evaluates risk profile by applying beta coefficents to valuations paths
 	//			   outputs to file
-	double EPE = EvRiskProf(Poly, dt,1);
+	double EPE = EvRiskProf(Poly, dt,0);
 
 	//Record duration
 	duration=(clock()-start)/(double) CLOCKS_PER_SEC;
@@ -245,7 +245,7 @@ double CoefApp(vector<double> Coef, double S, double R1, double R2, double Poly)
 		Y+=pow(S,i)*Coef[i];
 	}
 	Y+=R1*Coef[Poly+1]+R2*Coef[Poly+2];
-	if(Y<0){Y=0;}
+	// if(Y<0){Y=0;}
 	return Y;
 }
 
