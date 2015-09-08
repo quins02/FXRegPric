@@ -60,13 +60,15 @@ vector <double> Reg(vector< vector< vector <double> > > X, double DMONTH, int T,
 			// n = opt_call(X[1][i][T/dt - 1],STRIKE+0.1,CumIRate(X[3][i],X[4][i], Dtime, dt),Dtime)
 			// 	-opt_put(X[1][i][T/dt - 1],STRIKE-0.1,CumIRate(X[3][i],X[4][i], Dtime, dt),Dtime);
 		//Dig Put
-			n= opt_dig_call(X[1][i][T/dt - 1],STRIKE,CumIRate(X[3][i], X[4][i], Dtime, dt), Dtime);
+			// n= opt_dig_call(X[1][i][T/dt - 1],STRIKE,CumIRate(X[3][i], X[4][i], Dtime, dt), Dtime);
 		//Construct Barrier with Ret clause
 			// n = opt_call(X[1][i][T/dt - 1],STRIKE,CumIRate(X[3][i],X[4][i], Dtime, dt),1)
 			// 	- opt_call(X[1][i][T/dt - 1],STRIKE+0.1,CumIRate(X[3][i],X[4][i], Dtime, dt),1)
 				// - 0.1*opt_dig_call(X[1][i][T/dt - 1],STRIKE+0.1,CumIRate(X[3][i],X[4][i], Dtime, dt),1);
 		//PRDC
 			// n = PRDC(X[0][i],X[3][i],X[4][i],100,Dtime,CumIRate(X[3][i],X[4][i],Dtime,dt));
+		//SWAP
+			n = swap(X[3][i], 0.03, CumIRate(X[3][i],X[4][i],Dtime,dt));
 			Phi.push_back(n);
 			tau+=dt;
 		j=0;

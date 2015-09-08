@@ -92,6 +92,15 @@ double PRDC(vector <double> FX, vector<double> r1, vector <double> r2, double N,
 }
 
 
+double swap(vector <double> R, double Fix, double r){
+	double tmp = 0;
+	double dt = (R.size()-1)/12;
+	for(size_t i = 0 ; i < R.size() ; i+=dt){
+		tmp += (R[i] - Fix)*exp(-r);
+	}
+	return tmp;
+}
+
 double NORMFUNC(double x, void * params){
 	double alpha = *(double *) params;
 	double f = (1/sqrt(2*M_PI))*exp(-(alpha*x*x)/2);
