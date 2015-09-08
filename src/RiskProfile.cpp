@@ -245,6 +245,7 @@ double CoefApp(vector<double> Coef, double S, double R1, double R2, double Poly)
 		Y+=pow(S,i)*Coef[i];
 	}
 	Y+=R1*Coef[Poly+1]+R2*Coef[Poly+2];
+	// Y+=R1*Coef[Poly+1]+R1*Coef[Poly+2]+R2*Coef[Poly+3]+R2*Coef[Poly+4];
 	// if(Y<0){Y=0;}
 	return Y;
 }

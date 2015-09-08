@@ -132,7 +132,8 @@ vector < vector < vector < double > > >  BetaGen(int Path, int Buck, vector <dou
 	vector< vector < vector <double> > > XPand = ExpPolyReg(X[0],Poly,1);
 	XPand.push_back(X[1]);
 	XPand.push_back(X[2]);
-
+	// XPand.push_back(ExpPolyReg(X[1],Poly,0));
+	// XPand.push_back(ExpPolyReg(X[2],Poly,0));
 	//Declare variables for Bucketing
 	int min, max;
 	vector<double> v, Bucket;
