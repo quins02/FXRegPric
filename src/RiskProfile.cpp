@@ -188,7 +188,7 @@ double EvRiskProf(double Poly, double dt, bool OUT){
 					Val_Path.push_back(CoefApp(tmpBeta,tmp,tmpR1,tmpR2, Poly));
 					Result = CoefApp(tmpBeta,tmp,tmpR1,tmpR2,Poly);
 					BF<<setprecision(4)<<Tv+1<<"\t"<<tmp<<"\t"<<Result<<endl;
-					Rate<<tmp<<"\t"<<call_CF(tmp,1.2,0.0,1,0.01)<<endl;
+					Rate<<tmp<<"\t"<<call_CF(tmp,1.2,0.0,6/12,0.01)<<endl;
 					k = Num_Buckets;
 					tmpBeta.clear();
 				}

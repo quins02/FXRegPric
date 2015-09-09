@@ -22,6 +22,12 @@
 #include <FL/Fl_Window.H>
 #include <FL/Fl_Input.H>
 #include <FL/Fl_Float_Input.H>
+#include <FL/Fl_Slider.H>
+#include <FL/Fl_Output.H>
+#include <FL/Fl_Choice.H>
+#include <FL/Fl_Button.H>
+#include <FL/Fl_Menu_.H>
+#include <FL/Fl_Check_Button.H>
 
 using namespace std;
 
@@ -32,6 +38,13 @@ double hyp(vector<double> Coef, double X);
 double CoefApp(vector<double> Coef, double S, double R1, double R2, double Poly);
 double mean(vector <double> vec);
 vector <double> X_percent(vector <double> vec, double Percentile);
+
+template <class T>
+string convertToStr(T *var) {
+  ostringstream ss;
+  ss << *var;
+  return ss.str();
+}
 
 //DECLARE GLOBAL VARIABLES
 vector < vector < vector < double > > > VOut; //Holds Valutation Paths
@@ -73,7 +86,23 @@ int main(int argc, char **argv){
 	}
 
 	Fl_Window *window = new Fl_Window(680,360);
-	Fl_Float_Input *strike = new Fl_Float_Input(50, 10, 100, 30, "Strike");
+	window->label("Regression Pricer for FX Exotics");
+	Fl_Output *Spot = new Fl_Output(50, 30, 100, 30, "Spot");
+	Spot->value(convertToStr<double>(&Hist[0]).c_str());
+	Fl_Float_Input *strike = new Fl_Float_Input(50, 65, 100, 30, "Strike");
+	Fl_Float_Input *NPath = new Fl_Float_Input(50,100,100,30,"Paths");
+	Fl_Float_Input *NBuck = new Fl_Float_Input(50,135,100,30,"Buckets");
+	Fl_Float_Input *POrder = new Fl_Float_Input(50,170,100,30,"Poly");
+	Fl_Choice *Instrument = new Fl_Choice(50,205,100,30,"Instrument");
+		Instrument->add("Call");
+    	Instrument->add("Put");
+    	Instrument->add("Digital Call");
+    	Instrument->add("Digital Put");
+    Fl_Check_Button *OutToFile = new Fl_Check_Button(50,240,100,30,"Out to File");
+    Fl_Check_Button *AutoBucket = new Fl_Check_Button(50,275,100,30,"Auto Bucket");
+    Fl_Button *REGRESS = new Fl_Button(50,310,100,30,"Calculate");
+
+
 //	strike->value(Hist[0]);
 
 	window->end();

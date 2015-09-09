@@ -126,6 +126,7 @@ double NORMDIST(double x){
 }
 
 double call_CF(double S, double K, double R, double t, double vol){
+	t = (100 - (t*100))+0.01;
 	double d1 = (1/(vol * sqrt(t)))*(log(S/K) +(R+(vol*vol*0.5))*(t));
 	//cout<<d1<<endl;
 	double d2 = d1 - vol*sqrt(t);
@@ -134,8 +135,8 @@ double call_CF(double S, double K, double R, double t, double vol){
 }
 
 double dig_call_CF(double S, double K, double R, double t, double vol){
+	t = (100 - (t*100))+0.01;
 	double d1 = (1/(vol * sqrt(t)))*(log(S/K) +(R+(vol*vol*0.5))*(t));
 	double d2 = d1 - vol*sqrt(t);
-
 	return 1*NORMDIST(d2)*exp(-R*t);
 }
