@@ -137,5 +137,5 @@ double dig_call_CF(double S, double K, double R, double t, double vol){
 	double d1 = (1/(vol * sqrt(t)))*(log(S/K) +(R+(vol*vol*0.5))*(t));
 	double d2 = d1 - vol*sqrt(t);
 
-	return 10*NORMDIST(d2)*exp(-R*t);
+	return 1*NORMDIST(d2)*exp(-R*t);
 }

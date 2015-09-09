@@ -172,9 +172,9 @@ double EvRiskProf(double Poly, double dt, bool OUT){
 		string BUCK = "tmp/BucketFit" + static_cast<ostringstream*>( &(ostringstream() << Tv+1) )->str() + string(".dat");
 		ofstream BF;
 		BF.open(BUCK.c_str());
-		// string RateV = "tmp/RateV" + static_cast<ostringstream*>( &(ostringstream() << Tv+1) )->str() + string(".dat");
-		// ofstream Rate;
-		// Rate.open(RateV.c_str());
+		string RateV = "tmp/CF.dat";
+		ofstream Rate;
+		Rate.open(RateV.c_str());
 
 		double Result;
 	
@@ -188,7 +188,7 @@ double EvRiskProf(double Poly, double dt, bool OUT){
 					Val_Path.push_back(CoefApp(tmpBeta,tmp,tmpR1,tmpR2, Poly));
 					Result = CoefApp(tmpBeta,tmp,tmpR1,tmpR2,Poly);
 					BF<<setprecision(4)<<Tv+1<<"\t"<<tmp<<"\t"<<Result<<endl;
-					// Rate<<tmpR1<<"\t"<<tmpR2<<"\t"<<Result<<endl;
+					Rate<<tmp<<"\t"<<call_CF(tmp,1.2,0.0,1,0.01)<<endl;
 					k = Num_Buckets;
 					tmpBeta.clear();
 				}
@@ -246,7 +246,8 @@ double CoefApp(vector<double> Coef, double S, double R1, double R2, double Poly)
 	}
 	Y+=R1*Coef[Poly+1]+R2*Coef[Poly+2];
 	// Y+=R1*Coef[Poly+1]+R1*Coef[Poly+2]+R2*Coef[Poly+3]+R2*Coef[Poly+4];
-	// if(Y<0){Y=0;}
+	if(Y<0){Y=0;}
+	// if(Y>1){Y=1;}
 	return Y;
 }
 
